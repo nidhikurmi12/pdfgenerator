@@ -1,4 +1,3 @@
-import { useState } from "react";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -17,21 +16,15 @@ function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>(); // Add generic type for useForm
-  const [formData, setFormData] = useState<IFormInput>({
-    name: "",
-    receiptId: "0",
-    desc: "",
-    occupation: "",
-  });
 
   const createDownloadPdf: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const result = await axios.post("https://pdfgenerator-psi.vercel.app/create-pdf", data);
-      const secResult = await axios.get("https://pdfgenerator-psi.vercel.app/fetch-pdf", {
+      await axios.post("http://localhost:5000/create-pdf", data);
+      const secResult = await axios.get("http://localhost:5000/fetch-pdf", {
         responseType: "blob",
       });
       const pdfBlob = new Blob([secResult.data], { type: "application/pdf" });
-      saveAs(pdfBlob, "certifiicate.pdf");
+      saveAs(pdfBlob, "certificate.pdf");
     } catch (error) {
       console.log(error);
     }
@@ -113,7 +106,9 @@ function App() {
           <input
             type="text"
             placeholder="Occupation"
-            {...register("occupation", { required: "Occupation is required" })}
+            {...register("occupation", {
+              required: "Occupation is required",
+            })}
             style={{
               width: "100%",
               padding: "10px",

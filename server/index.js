@@ -13,6 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan("combined"))
 
+
+app.get('/',(req,res)=>{
+  res.status(200).send({ message: "This is home page",  });
+})
+
+
 // POST Route - PDF Generation and fetching the data
 app.post("/create-pdf", (req, res) => {
   pdf.create(pdfTemplate(req.body), {}).toFile("certificate.pdf", (err) => {

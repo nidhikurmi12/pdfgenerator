@@ -2,7 +2,7 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-// Define the interface for form data
+
 interface IFormInput {
   name: string;
   receiptId: string;
@@ -16,10 +16,16 @@ function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInput>(); // Add generic type for useForm
+  const [formData, setFormData] = useState<IFormInput>({
+    name: "",
+    receiptId: "0",
+    desc: "",
+    occupation: "",
+  });
 
   const createDownloadPdf: SubmitHandler<IFormInput> = async (data) => {
     try {
-      await axios.post("http://localhost:5000/create-pdf", data);
+      const result = await axios.post("http://localhost:5000/create-pdf", data);
       const secResult = await axios.get("http://localhost:5000/fetch-pdf", {
         responseType: "blob",
       });

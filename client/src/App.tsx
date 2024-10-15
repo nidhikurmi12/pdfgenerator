@@ -25,8 +25,8 @@ function App() {
 
   const createDownloadPdf: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const result = await axios.post("http://localhost:5000/create-pdf", data);
-      const secResult = await axios.get("http://localhost:5000/fetch-pdf", {
+      const result = await axios.post("https://pdfgenerator-psi.vercel.app/create-pdf", data);
+      const secResult = await axios.get("https://pdfgenerator-psi.vercel.app/fetch-pdf", {
         responseType: "blob",
       });
       const pdfBlob = new Blob([secResult.data], { type: "application/pdf" });
